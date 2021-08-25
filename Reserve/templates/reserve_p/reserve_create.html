@@ -1,0 +1,51 @@
+{% extends '_base.html' %}
+{% load static %}
+{% load mathfilters %}
+{% block title %}ฟอร์มจองคิว{% endblock %}
+{% block content %}
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="alert alert-success" role="alert">
+                <h3 class="text-center">ระบบจองคิวตรวจ ATK สนามกีฬาธูปะเตมีย์</h3>
+            </div>
+            <p style="text-align: left;">ขั้นตอนที่ 2 ลงทะเบียน</p>
+        </div>
+        <h5 style="text-align: center; color:red;">กรอกเลขที่บัตรประจำตัวประชาชน 13 หลัก*</h5>
+        <div class="modal-body">
+            <form method="post" >                
+                {% csrf_token %}
+                <ul class="col col-lg-12">
+                    <input class="form-control" placeholder="กรอกเฉพาะตัวเลขติดกัน" type="text" name="pid1" id="idcard" maxlength="13"/><span class="error "></span><br>
+                    <input class="form-control" placeholder="กรอกเฉพาะตัวเลขติดกัน" type="text" name="pid2" id="idcard1" maxlength="13"/><span class="error1 "></span><br>
+                    <input class="form-control" placeholder="กรอกเฉพาะตัวเลขติดกัน" type="text" name="pid3" id="idcard2" maxlength="13"/><span class="error2 "></span>
+                </ul>
+                
+                <br>
+                <br>
+
+                <select class="form-select" aria-label="Default select example" size="5" name="select_lot">                
+                {% for show_lots in show_lot %}
+                     {% if  show_lots.Lot_Booking < show_lots.Lot_Total %}
+                        {% with op="ว่าง" %}
+                            <option class="btn btn-primary" value="{{show_lots.id}}"> {{show_lots.Lot_Time}} ({{op}}) </option>
+                        {% endwith %}  
+                     {% endif %}
+                     {% if  show_lots.Lot_Booking >= show_lots.Lot_Total %}
+                        {% with op="เต็ม" %} 
+                            <option class="btn btn-secondary"value="{{show_lots.id}}" disabled>{{show_lots.Lot_Time}} ({{op}})</option>  
+                        {% endwith %}  
+                     {% endif %}
+                {% endfor %} 
+                </select>
+
+                <br>
+                
+                <button type="submit" class="btn btn-primary" id="savebtn" > ส่งข้อมูล</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

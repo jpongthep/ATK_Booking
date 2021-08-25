@@ -1,0 +1,44 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block title %}รายละเอียดการจองคิว{% endblock %}
+{% block content %}
+<body>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <style>
+
+            </style>
+            <div class="modal-header">
+                <div class="alert alert-success" role="alert">
+                <h3 class="text-center" style="color: black;">ระบบจองคิวตรวจ ATK สนามกีฬาธูปะเตมีย์</h3>
+                </div>
+                <div class="alert alert-success" role="alert">
+                    <h1 class="text-center" style="color:black;">รายงานผลการจองคิว</h1>
+                    
+                    <h3 class="text-center" style="color:black;">{{get_queue_detail.0.atk_lot.Lot_Date.day}}/{{get_queue_detail.0.atk_lot.Lot_Date.month}}/{{get_queue_detail.0.atk_lot.Lot_Date.year|add:543}}</h3>
+                    <h3 class="text-center" style="color:black;">เวลา : {{get_queue_detail.0.atk_lot.Lot_Time}}</h3>                                       
+                    
+                    <h3 class="text-center" style="color:black;">ผลการจองคิว</h3>
+                    
+                    {% for ATK_S in queue %}
+                        {{ ATK_S.user_atk.PID }}
+                        {{ ATK_S.Queue }}
+                        {{ ATK_S.atk_lot.Lot_Date }}
+                    {% endfor %}
+
+                    <p style="text-align:center;"><i class="fa fa-check-circle-o fa fa-5x" aria-hidden="true"></i></p>
+                    <br />
+                    {% for q in get_queue_detail %}
+                    <p class="text-center"  style="font-size: 20px; color:black;" >รหัสประจำตัว : {{ q.user_atk.PID }} ได้คิวที่ : {{ q.Queue }}</p>                    
+                    <br/>
+                    {%  endfor %}     
+
+                    <p style="color:black"> - กรุณาไปก่อนหมดเวลา 15 นาที</p>
+                    <p style="color:black"> - ผู้ที่เคยตรวจเชื้อแล้วไม่ถึง 14 วันไม่สามารถใช้บริการได้</p>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock %}
