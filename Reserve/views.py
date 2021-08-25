@@ -5,15 +5,11 @@ from Reserve.models import User_ATK, ATK_Lot, ATK_Queue
 
 from datetime import timedelta
 from django.utils import timezone
-import datetime
-
-def tomorrow():
-    _tomorrow = datetime.date.today() + datetime.timedelta(days=1)
-    return _tomorrow
+from .models import tomorrow
 
 def Booking (request):
     hour = timezone.now().hour+7    
-    if not 8 <= hour <= 15 : 
+    if not 8 <= hour <= 17 : 
         return render(request, 'reserve_p/reserve_close.html')    
     show_lot = ATK_Lot.objects.filter(Lot_Date = tomorrow()).all()
     index = {'show_lot': show_lot}    
@@ -26,10 +22,18 @@ def Booking (request):
                 PIDList.append(request.POST.get('pid2'))
             if request.POST.get('pid3'):
                 PIDList.append(request.POST.get('pid3')) 
+
+            #ถ้าคนใดหนึ่งเคย ตรวจในวงรอบ 14 วันจะไม่สามารถจองได้
+            last14days = timezone.now().date() - timedelta(days=14)     
+            reserve_14_day = ATK_Queue.objects.filter(user_atk__PID__in = PIDList).filter(TimeStamp__gte = last14days).filter(Statas = "102")      
+            if reserve_14_day.exists():
+                context = {'reserve_14_day':reserve_14_day}
+                
+                return render (request, "reserve_p/reserve_error14day.html", context)
             for CountPID in PIDList:
                 User = User_ATK.objects.filter(PID = CountPID)                
                 if User.exists():
-                    last14days = timezone.now().date() - timedelta(days=14)
+                    
                     if ATK_Queue.objects.filter(user_atk = User[0]).filter(TimeStamp__gte = last14days).filter(Statas = "102").exists() :
                         messages.error(request, 'รอ 14 วัน')
                     else :

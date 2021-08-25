@@ -70,6 +70,7 @@ class SettingsBackend(ModelBackend):
                 
         except User.DoesNotExist:
             ReturnData = checkRTAFPassdword(username,password)
+            print('ReturnData = ',ReturnData)
             if ReturnData:
                 user = User(username = username)
                 user.email = f'{username}@rtaf.mi.th'                
@@ -78,12 +79,18 @@ class SettingsBackend(ModelBackend):
                 user.is_superuser = False
                 user.first_name = ReturnData['user_name']
                 user.last_name = ""
-                user.Unit = ReturnData['user_orgname']
+                unit = Unit.objects.filter(ShortName = ReturnData['user_orgname'])
+                if unit.exists():
+                    user.Unit = unit
+                else:
+                    unit = Unit(ShortName = ReturnData['user_orgname'])
+                    unit.save()
+                    user.Unit = unit
                 user.save()
 
                 UserUnit = Unit.objects.filter(ShortName = ReturnData['user_orgname'])
                 if not UserUnit.exists():                    
-                    NewUnit = Unit(ShortName = ReturnData['user_orgname'], FullName = ReturnData['user_orgname'])
+                    NewUnit = Unit(ShortName = ReturnData['user_orgname'])
                     NewUnit.save()                
 
                 messages.warning(request,f'ไม่มีผู้ใช้นี้ในระบบ ได้ทำการเพิ่ม "{username}" ให้แล้ว ติดต่อ Admin เพื่อเข้าใช้งาน')

@@ -29,7 +29,7 @@
                     <p style="text-align:center;"><i class="fa fa-check-circle-o fa fa-5x" aria-hidden="true"></i></p>
                     <br />
                     {% for q in get_queue_detail %}
-                    <p class="text-center"  style="font-size: 20px; color:black;" >รหัสประจำตัว : {{ q.user_atk.PID }} ได้คิวที่ : {{ q.Queue }}</p>                    
+                    <p class="text-center"  style="font-size: 20px; color:black;" >คิว : {{ q.Queue }} รหัสประจำตัว : {{ q.user_atk.PID }} </p>                    
                     <br/>
                     {%  endfor %}     
 

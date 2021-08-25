@@ -10,7 +10,7 @@ class Unit(models.Model):
 
     class Meta:
         verbose_name_plural = "หน่วยขึ้นตรง ทอ. [Unit]" 
-    FullName = models.CharField(max_length = 100, blank = False, default = None)
+    FullName = models.CharField(max_length = 100, blank = False,null = True, default = None)
     ShortName = models.CharField(max_length = 20, blank = False, default = None)
     
     def __str__(self):
@@ -20,14 +20,14 @@ class Unit(models.Model):
 class User(AbstractUser):
     class Meta:        
         permissions = (
-            ("RTAF_NO_HOME_USER", "RTAF_no_home_user"),
-            ("RTAF_HOME_USER", "RTAF_home_user"),
-            ("PERSON_UNIT_USER", "Person_unit_user"),
-            ("PERSON_ADMIN", "Person_admin"),
-            ("HOME_EXAMINE_OFFICER", "Home_examine_officer"),
-            ("MP_OFFICER", "MP_officer"),
-            ("FINANCIAL_OFFICER", "Financial_officer"),
-            ("CIVIL_OFFICER", "Civil_officer"),
+            # ("RTAF_NO_HOME_USER", "RTAF_no_home_user"),
+            # ("RTAF_HOME_USER", "RTAF_home_user"),
+            # ("PERSON_UNIT_USER", "Person_unit_user"),
+            # ("PERSON_ADMIN", "Person_admin"),
+            # ("HOME_EXAMINE_OFFICER", "Home_examine_officer"),
+            # ("MP_OFFICER", "MP_officer"),
+            # ("FINANCIAL_OFFICER", "Financial_officer"),
+            # ("CIVIL_OFFICER", "Civil_officer"),
 
             # ("RTAF_ALL_USER", "RTAF_all_user"),  ผู้ใช้ ทอ.ทุกคนที่ไม่มีบ้านพัก
             # ("RTAF_HOME_USER", "RTAF_home_user"), ผู้ใช้ ทอ.ทุกคนที่มีบ้านพัก

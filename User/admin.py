@@ -10,7 +10,7 @@ class UnitAdmin(admin.ModelAdmin):
 
 class UserAdmin(UserAdmin):
 
-    list_display = ('username', 'Unit', 'email','FullName','is_staff', 'is_superuser')
+    list_display = ('username', 'Unit','FullName','is_active','is_staff', 'is_superuser')
     list_editable = ['is_staff', 'is_superuser']
     fieldsets = (
     (None, {'fields': ('username', 'password')}),
